@@ -1,40 +1,20 @@
-<<<<<<< HEAD
 # ---- Build Stage ----
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
 
-# Copy project folder and build from there
-COPY ./HPV-ADOLEPAC\ 6.0/ ./HPVADOLEPAC/
-
-WORKDIR /app/HPVADOLEPAC
-RUN dotnet publish "HPVADOLEPAC.csproj" -c Release -o /app/out
+# Copy everything and restore
+COPY . ./
+RUN dotnet publish "HPV-ADOLEPAC 6.0.csproj" -c Release -o out
 
 # ---- Runtime Stage ----
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
+
+# Copy build from previous stage
 COPY --from=build /app/out ./
 
+# Configure ASP.NET Core to listen on port 8080
 ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
 
-=======
-# ---- Build Stage ----
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /app
-
-# Copy project folder and build from there
-COPY ./HPV-ADOLEPAC\ 6.0/ ./HPVADOLEPAC/
-
-WORKDIR /app/HPVADOLEPAC
-RUN dotnet publish "HPVADOLEPAC.csproj" -c Release -o /app/out
-
-# ---- Runtime Stage ----
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
-WORKDIR /app
-COPY --from=build /app/out ./
-
-ENV ASPNETCORE_URLS=http://+:8080
-EXPOSE 8080
-
->>>>>>> 7aa8ae0fecd700af9004e6f058e6b151c8155bd7
-ENTRYPOINT ["dotnet", "HPVADOLEPAC.dll"]
+ENTRYPOINT ["dotnet", "HPV-ADOLEPAC 6.0.dll"]
