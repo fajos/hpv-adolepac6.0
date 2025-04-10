@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Copy everything and restore
 COPY . ./
-RUN dotnet publish "HPV-ADOLEPAC 6.0.csproj" -c Release -o out
+RUN dotnet publish "HPVADOLEPAC.csproj" -c Release -o out
 
 # ---- Runtime Stage ----
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
@@ -17,4 +17,4 @@ COPY --from=build /app/out ./
 ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
 
-ENTRYPOINT ["dotnet", "HPV-ADOLEPAC 6.0.dll"]
+ENTRYPOINT ["dotnet", "HPVADOLEPAC.dll"]
